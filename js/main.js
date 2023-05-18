@@ -13,18 +13,30 @@ form.addEventListener("submit", (evento) => {  //  os dados escritos são enviad
 
     const nome = evento.target.elements['nome']
     const quantidade = evento.target.elements['quantidade']
-    
+
+    const existe = itens.find(elemento => elemento.nome === nome.value) 
     const itemAtual = {
       "nome": nome.value,
       "quantidade": quantidade.value
     }
-
-    criaElemento(itemAtual)
     
+    if (existe) {
+        itemAtual.id = existe.id  //se o elemento existir criar um id
+        
+        atualizaElemento(itemAtual)
+      } else { // se nao existir  e jogar elemento no array
 
+        itemAtual.id = itens.length //criar id para todos os elemento que estiver na lista
 
-    itens.push(itemAtual) 
-    //inserir a variavel itens no array itemAtual 
+        criaElemento(itemAtual) //criar esse elemeto
+    
+        itens.push(itemAtual) 
+      //inserir a variavel itens no array itemAtual   
+      }
+    
+   
+
+    
 
     localStorage.setItem("itens", JSON.stringify(itens))  //acessar e salvar informaçoes do usuario
     
@@ -49,6 +61,7 @@ function criaElemento(item) {
     numeroItem.innerHTML = item.quantidade  
     //receber quantidade do produto, o numeroItem ficara no campo de input Quantidade recebendo o valor numerico
 
+    numeroItem.dataset.id = item.id
 
     novoItem.appendChild(numeroItem) 
     //infiltra um item (strong) dentro de outro no html ou seja adiciona strong ao novoItem criado
@@ -61,9 +74,10 @@ function criaElemento(item) {
 
     lista.appendChild(novoItem) 
     // adicionar tudo oq foi feito acima (novoItem) a pagina web, para quando der o submit (apertar o botao adicionar item) criar um novo item com a quantidade e nome,e css e html ja incluso
-
-
     
-    
+}
+
+function atualizaElemento(item) {
+  document.querySelector("[data-id='"+item.id+"']").innerHTML = item.quantidade
 }
 

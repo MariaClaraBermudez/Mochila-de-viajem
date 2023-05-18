@@ -24,6 +24,8 @@ form.addEventListener("submit", (evento) => {  //  os dados escritos são enviad
         itemAtual.id = existe.id  //se o elemento existir criar um id
         
         atualizaElemento(itemAtual)
+
+        itens[existe.id] = itemAtual
       } else { // se nao existir  e jogar elemento no array
 
         itemAtual.id = itens.length //criar id para todos os elemento que estiver na lista
@@ -72,6 +74,8 @@ function criaElemento(item) {
     //fazer com que o nome venha apos a quantidade dele 
     //ex: 7 (quantidade) camisas cinzas (nome)
 
+    novoItem.appendChild(botaoDeleta()) //itens ter o botao de deletar
+
     lista.appendChild(novoItem) 
     // adicionar tudo oq foi feito acima (novoItem) a pagina web, para quando der o submit (apertar o botao adicionar item) criar um novo item com a quantidade e nome,e css e html ja incluso
     
@@ -81,3 +85,16 @@ function atualizaElemento(item) {
   document.querySelector("[data-id='"+item.id+"']").innerHTML = item.quantidade
 }
 
+function botaoDeleta() { //criar botao de deletar
+  const elementoBotao = document.createElement("button")
+  elementoBotao.innerText = "X"
+
+  elementoBotao.addEventListener("click", function(){
+    deletaElemento(this.parentNode) //remover elemento junto com o botao
+  })
+
+  return elementoBotao
+}
+function deletaElemento(tag) {
+  tag.remove () //funçao para remover tag
+}
